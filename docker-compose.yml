@@ -10,7 +10,7 @@ services:
     labels:
       - autoheal=true
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"]
+      test: ["CMD-SHELL", "pgrep -f watchtower >/dev/null || exit 1"]
       interval: 120s
       timeout: 10s
       retries: 5
