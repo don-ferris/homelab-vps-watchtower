@@ -1,0 +1,17 @@
+services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+    command: --label-enable --cleanup --notifications=ntfy --notification-ntfy-url=https://ntfy.sh/${NTFY_TOPIC}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${VOLUME_PATH}:/data
+    labels:
+      - autoheal=true
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
